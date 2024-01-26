@@ -1,22 +1,32 @@
+import en from "./locale/en.json";
+import my from "./locale/my.json";
+
 const initLocale = () => {
+    let messages = {
+        en : en,
+        my : my
+    };
+
     let locale = localStorage.getItem('locale') ?? "my";
 
-    fetch(`locale/${locale}.json`)
-    .then((response) => {
-        return response.json();
-    })
-    .then((data) => {
-        trans(data)
-    })
-    .catch((error) => {
-        console.log(error)
-    })
-    .finally(() => {
+    console.log(messages);
 
-    });
+    // fetch(`locale/${locale}.json`)
+    // .then((response) => {
+    //     return response.json();
+    // })
+    // .then((data) => {
+    //     trans(data)
+    // })
+    // .catch((error) => {
+    //     console.log(error)
+    // })
+    // .finally(() => {
+
+    // });
 
     const trans = (messages) => {
-        console.log(messages);
+
         let list = document.querySelectorAll("[locale-key]");
 
         list.forEach((element) => {
@@ -24,11 +34,11 @@ const initLocale = () => {
 
             attribute = attribute.replace('-', '.');
 
-            console.log("Message : ", getNestedValue(messages, attribute, ''));
-
             element.innerHTML = getNestedValue(messages, attribute, '');
         });
     }
+
+    trans(messages[locale]);
 }
 
 const getNestedValue = (list, keys, defaultValue) => {
